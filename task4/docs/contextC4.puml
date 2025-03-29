@@ -1,0 +1,15 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(bo_deposits, "Сотрудник бэк-офиса (депозиты)")
+System(abc, "АБС", "Хранит ставки по депозитам")
+System(cc_sys, "Система кол-центра", "CRM решение в банке")
+System(partner_cc, "Партнёрский кол-центр", "Внешняя система")
+System_Ext(file_transfer, "Файловая передача", "SFTP/почта")
+
+Rel(bo_deposits, abc, "Обновляет/актуализирует ставки")
+Rel(abc, cc_sys, "Передаёт/синхронизирует ставки", "REST/DB sync")
+Rel(abc, file_transfer, "Генерирует файл со ставками", "CSV/XLS")
+Rel(file_transfer, partner_cc, "Загрузка файла")
+
+@enduml

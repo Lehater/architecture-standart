@@ -1,0 +1,22 @@
+@startgantt
+Project starts the 2025/04/01
+projectscale quarterly zoom 10
+
+-- АБС --
+[A1: Доработка модуля ставок] as [A1] starts at 2025/04/01 and lasts 6 weeks
+[A2: Настройка расписания/триггеров] as [A2] starts at [A1]'s end and lasts 6 weeks
+[A3: Доработка обновления файла CSV] as [A3] starts at [A2]'s end  and lasts 6 weeks
+
+-- Интеграции --
+[I1: Настройка безопасного канала (SFTP)] as [I1] starts at 2025/04/01 and lasts 6 weeks
+[I2: Мониторинг передачи и обучения] as [I2] starts at [I1]'s end  and lasts 6 weeks
+
+-- CRM и система кол-центра --
+[C1: Интеграция CRM с АБС] as [C1] starts at 2025/04/01 and lasts 6 weeks
+[C2: Интерфейс менеджера (отображение ставок)] as [C2] starts at  [C1]'s end and lasts 6 weeks
+
+-- Партнёрский кол-центр --
+[P1: Подключение партнёрского КЦ] as [P1] starts at [A2]'s end and lasts 6 weeks
+[P2: Тестирование парсера у партнёра] as [P2] starts at [P1]'s end and lasts 6 weeks
+
+@endgantt

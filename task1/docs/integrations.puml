@@ -1,0 +1,34 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+LAYOUT_WITH_LEGEND()
+
+Person(client, "Клиент", "Пользователь банка, в основном пожилой")
+Person(operator, "Оператор кол-центра", "Сотрудник банка")
+Person(backoffice, "Бэк-офис", "Обработка заявок и расчёт ставок")
+Person(it_team, "ИТ-команда", "Поддержка систем и интеграций")
+
+System(website, "Сайт", "PHP + React, только маркетинговая информация")
+System(ibank, "Интернет-банк", "ASP.NET MVC + MSSQL, ограниченный функционал")
+System(abs, "АБС", "Delphi + Oracle, основная бизнес-логика")
+System(sms, "СМС-шлюз", "Интеграция с телеком-оператором")
+System(crm, "CRM кол-центра", "React + Spring Boot, микросервисы")
+System(ext_crm, "CRM партнёрского КЦ", "Внешняя система")
+System(excel, "Excel", "Ручной расчёт ставок")
+System(email, "Email", "Передача заявок между отделами")
+
+' Взаимодействия
+Rel(client, website, "Читает информацию")
+Rel(client, ibank, "Подаёт заявки (будущее)")
+Rel(operator, crm, "Фиксирует обращение")
+Rel(crm, abs, "Создаёт обращение")
+Rel(abs, sms, "Отправка СМС")
+Rel(operator, email, "Пересылает заявки")
+Rel(backoffice, excel, "Рассчитывает ставки")
+Rel(it_team, abs, "Поддержка и доработки")
+Rel(client, ext_crm, "Обращается (внешний КЦ)", "иногда")
+
+Rel(email, abs, "Ручной ввод данных")
+Rel(ibank, abs, "Подача заявки (будущее)")
+Rel(ibank, sms, "Оповещение клиента (будущее)")
+
+@enduml

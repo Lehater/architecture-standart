@@ -1,0 +1,22 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(abc, "АБС") {
+  Container(abc_core, "Модуль ставок", "PL/SQL + Delphi/Oracle", "Хранение и расчёт ставок")
+  Container(abc_db, "БД AБС", "Oracle", "Основные данные банка")
+}
+
+System_Boundary(cc, "Система кол-центра") {
+  Container(cc_app, "CRM кол-центра", "Java Spring Boot + React", "Интерфейс менеджера и бизнес-логика")
+  Container(cc_db, "БД кол-центра", "PostgreSQL", "Заявки, справочная информация")
+}
+
+System_Ext(file_transfer, "SFTP/почта", "Внешний канал")
+System_Ext(partner_cc, "Партнёрский кол-центр", "Внешняя система")
+
+Rel(abc_core, abc_db, "PL/SQL")
+Rel(abc_core, cc_app, "REST API/DB sync", "Обновление справочника ставок")
+Rel(abc_core, file_transfer, "Экспорт файла CSV/XLS со ставками")
+Rel(file_transfer, partner_cc, "Получение файла")
+
+@enduml
