@@ -1,0 +1,30 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(customer, "Клиент")
+System_Boundary(inet_bank, "Интернет-банк") {
+  Container(web_ui, "Веб-интерфейс", "ASP.NET MVC", "Форма заявки, отображение ставок")
+  Container(api_gateway, "API медиатора", "ASP.NET Web API", "Обработка заявок, взаимодействие с АБС")
+  Container(db_ib, "БД интернет-банка", "MS SQL", "Хранение заявок и пользовательских данных")
+  Container(sms_service, "Сервис отправки СМС", ".NET", "Интеграция с СМС-шлюзом")
+}
+
+System_Boundary(abc, "АБС") {
+  Container(abc_core, "Ядро АБС", "PL/SQL", "Логика обработки депозитов")
+  Container(abc_db, "БД АБС", "Oracle", "Операционные данные по депозитам")
+}
+
+System(site, "Сайт", "PHP + React.js")
+System(cc_sys, "Система кол-центра", "Java + PostgreSQL")
+System(sms_gateway, "СМС-шлюз", "Внешний шлюз сообщений")
+
+Rel(customer, web_ui, "Работа с ЛК")
+Rel(web_ui, api_gateway, "REST API")
+Rel(api_gateway, db_ib, "Запись/чтение заявок")
+Rel(api_gateway, abc_core, "Передача заявки", "REST/API")
+Rel(api_gateway, sms_service, "Уведомление клиента")
+Rel(sms_service, sms_gateway, "Отправка СМС")
+Rel(site, cc_sys, "Передача заявок", "REST API")
+Rel(abc_core, abc_db, "PL/SQL вызовы")
+
+@enduml

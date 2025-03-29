@@ -1,0 +1,24 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(customer, "Клиент")
+Person(bo_employee, "Сотрудник бэк-офиса")
+Person(call_mgr, "Менеджер кол-центра")
+
+System(site, "Сайт", "Веб-сайт банка")
+System(inet_bank, "Интернет-банк", "Личный кабинет клиента")
+System(abc, "АБС", "Автоматизированная банковская система")
+System(cc_sys, "Система кол-центра", "CRM-платформа кол-центра")
+System(sms_gateway, "СМС-шлюз", "Шлюз отправки сообщений")
+System_Ext(kafka_future, "Kafka (на перспективу)", "Возможная интеграция")
+
+Rel(customer, site, "Просмотр и подача заявки")
+Rel(customer, inet_bank, "Заявка на депозит, подтверждение по СМС")
+Rel(call_mgr, cc_sys, "Обработка заявки с сайта")
+Rel(bo_employee, abc, "Обработка заявки и расчёт ставки")
+Rel(site, cc_sys, "Передача заявки", "REST API")
+Rel(inet_bank, abc, "Промежуточный API-слой")
+Rel(abc, sms_gateway, "Отправка СМС")
+Rel(inet_bank, sms_gateway, "Подтверждение по СМС")
+
+@enduml
